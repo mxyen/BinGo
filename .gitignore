@@ -1,0 +1,22 @@
+# Dependencias y builds (se regeneran con npm install / npm run build)
+node_modules
+dist
+.vite
+*.tsbuildinfo
+
+# Variables de entorno y credenciales (NUNCA subir)
+.env
+.env.*
+!.env.example
+*.local
+
+# Vercel (se crea al hacer `vercel link` / `vercel deploy`)
+.vercel
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.log
