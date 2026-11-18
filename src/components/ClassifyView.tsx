@@ -61,7 +61,7 @@ export default function ClassifyView({ rewards, notify }: Props) {
       }
     } catch (e) {
       console.error(e);
-      setError('No se pudo cargar el modelo de IA. Revisa tu conexión a internet e inténtalo de nuevo.');
+      setError('No se pudo analizar la imagen. Inténtalo de nuevo o elige la categoría manualmente.');
     } finally {
       setAnalyzing(false);
     }
@@ -157,7 +157,7 @@ export default function ClassifyView({ rewards, notify }: Props) {
               </div>
             </div>
           )}
-          {analyzing && <p className="hint">La primera vez se descarga el modelo de IA (~16 MB)…</p>}
+          {analyzing && <p className="hint">Preparando el modelo de IA…</p>}
           {error && <p className="error">{error}</p>}
           {predictions && (
             <details className="predictions" open={!selection}>

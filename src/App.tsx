@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { registerSW } from 'virtual:pwa-register';
 import { useRewards } from './hooks/useRewards';
 import ClassifyView from './components/ClassifyView';
 import PointsView from './components/PointsView';
@@ -22,6 +23,14 @@ export default function App() {
     setToast(msg);
     window.setTimeout(() => setToast(null), 2500);
   };
+
+  useEffect(() => {
+    // Avisa cuando todo (incluido el modelo de IA) quedó guardado para usarse sin conexión.
+    registerSW({
+      immediate: true,
+      onOfflineReady: () => notify('✅ BinGo ya funciona sin internet'),
+    });
+  }, []);
 
   return (
     <div className="app">

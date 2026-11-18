@@ -34,15 +34,21 @@ function mapLabel(label: string): { category: CategoryId; name: string } | null 
   return null;
 }
 
+/**
+ * El modelo (MobileNet v2, entrenado con ImageNet) se sirve desde /public
+ * en lugar de descargarse de TF Hub, para que funcione sin conexión.
+ */
+const MODEL_URL = `${import.meta.env.BASE_URL}models/mobilenet_v2/model.json`;
+
 let modelPromise: Promise<MobileNet> | null = null;
 
-/** Carga MobileNet una sola vez (se descarga ~16 MB la primera vez). */
+/** Carga MobileNet una sola vez y la reutiliza en análisis posteriores. */
 export function loadModel(): Promise<MobileNet> {
   if (!modelPromise) {
     modelPromise = (async () => {
       await import('@tensorflow/tfjs');
       const mobilenet = await import('@tensorflow-models/mobilenet');
-      return mobilenet.load({ version: 2, alpha: 1.0 });
+      return mobilenet.load({ version: 2, alpha: 1.0, modelUrl: MODEL_URL, inputRange: [0, 1] });
     })();
     modelPromise.catch(() => {
       modelPromise = null;
